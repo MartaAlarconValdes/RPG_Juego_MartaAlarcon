@@ -12,8 +12,22 @@ public class CrouchingState : MovementBaseState
 
     public override void UpdateState(MovementStateManager movement)
     {
-        throw new System.NotImplementedException();
+        if (Input.GetKey(KeyCode.LeftShift)) ExitState(movement, movement.Run);
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (movement.dir.magnitude < 0.1f) ExitState(movement, movement.Idle);
+            else ExitState(movement, movement.Walk);
+        }
+
+        if (movement.vInput < 0) movement.currentMoveSpeed = movement.crouchBackSpeed;
+        else movement.currentMoveSpeed = movement.crouchSpeed;
     }
 
-   
+    void ExitState(MovementStateManager movement, MovementBaseState state)
+    {
+        movement.animator.SetBool("Crouching", false);
+        movement.SwitchState(state);
+    }
+
+
 }

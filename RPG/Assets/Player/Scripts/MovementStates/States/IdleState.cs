@@ -6,7 +6,7 @@ public class IdleState : MovementBaseState
 {
     public override void EnterState(MovementStateManager movement)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void UpdateState(MovementStateManager movement)
