@@ -24,7 +24,7 @@ public class MovementStateManager : MonoBehaviour
     Vector3 velocity;
 
 
-    MovementBaseState currentState;
+    public MovementBaseState currentState;
     public IdleState Idle = new IdleState();
     public WalkState Walk = new WalkState();
     public RunState Run = new RunState();
@@ -33,7 +33,7 @@ public class MovementStateManager : MonoBehaviour
     [HideInInspector] public Animator animator;
     void Start()
     {
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         SwitchState(Idle);
     }
@@ -86,9 +86,9 @@ public class MovementStateManager : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(spherePos, controller.radius - 0.05f);
-    }
+    }*/
 }
