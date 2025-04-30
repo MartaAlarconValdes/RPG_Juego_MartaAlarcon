@@ -11,6 +11,13 @@ public class AimStateManager : MonoBehaviour
 
     [SerializeField] float mouseSense = 1;
     [SerializeField] Transform camFollowPos;
+
+    [SerializeField] Camera mainCamera;
+    public float adsFov = 40;
+    [HideInInspector] public float hipFov;
+    [HideInInspector] public float currentFov;
+    public float fovSmoothSpeed = 10;
+
     float xAxis, yAxis;
 
     [HideInInspector] public Animator anim;
@@ -28,6 +35,8 @@ public class AimStateManager : MonoBehaviour
 
     void Start()
     {
+        mainCamera = GetComponentInChildren<Camera>();
+        hipFov = mainCamera.fieldOfView;
         moving = GetComponent<MovementStateManager>();
         xFollowPos = camFollowPos.localPosition.x;
         ogYPos = camFollowPos.localPosition.y;
@@ -42,14 +51,15 @@ public class AimStateManager : MonoBehaviour
         yAxis -= Input.GetAxisRaw("Mouse Y") * mouseSense;
         yAxis = Mathf.Clamp(yAxis,-80, 80);
 
+        mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, currentFov, fovSmoothSpeed * Time.deltaTime);   
+
         Vector2 screenCentre = new Vector2(Screen.width / 2, Screen.height / 2);
         Ray ray = Camera.main.ScreenPointToRay(screenCentre);
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
             aimPos.position = Vector3.Lerp(aimPos.position, hit.point, aimSmoothSpeed * Time.deltaTime);
 
-        //MoveCamera();
-
+       
         currentState.UpdateState(this);
     }
 
@@ -65,13 +75,4 @@ public class AimStateManager : MonoBehaviour
         currentState.EnterState(this);
     }
 
-    void MoveCamera()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftAlt)) xFollowPos = -xFollowPos;
-        if (moving.currentState == moving.Crouch) yFollowPos = crouchCamHeight;
-        else yFollowPos = ogYPos;
-
-        Vector3 newFollowPos = new Vector3(xFollowPos, yFollowPos, camFollowPos.localPosition.z);
-        camFollowPos.localPosition = Vector3.Lerp(camFollowPos.localPosition, newFollowPos, shoulderSwapSpeed * Time.deltaTime);
-    }
 }
