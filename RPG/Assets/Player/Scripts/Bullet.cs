@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        /*if (collision.gameObject.GetComponentInParent<Zombie>())
+        if (collision.gameObject.GetComponent<EnemyHealth>())
         {
             EnemyHealth enemyHealth = collision.gameObject.GetComponentInParent<EnemyHealth>();
             enemyHealth.TakeDamage(weapon.damage);
@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
                 rb.AddForce(dir * weapon.enemyKickbackForce, ForceMode.Impulse);
                 enemyHealth.isDead = true;
             }
-        }*/
+        }
         Destroy(this.gameObject);
     }
 }
