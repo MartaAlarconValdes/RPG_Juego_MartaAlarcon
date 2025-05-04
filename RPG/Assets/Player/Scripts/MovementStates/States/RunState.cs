@@ -11,6 +11,13 @@ public class RunState : MovementBaseState
 
     public override void UpdateState(MovementStateManager movement)
     {
+
+        if (Input.GetKeyDown(KeyCode.Space) && movement.IsGrounded())
+        {
+            ExitState(movement, movement.Jump);
+            return;
+        }
+
         if (Input.GetKeyUp(KeyCode.LeftShift)) ExitState(movement, movement.Walk);
         else if (movement.dir.magnitude < 0.1f) ExitState(movement, movement.Idle);
 

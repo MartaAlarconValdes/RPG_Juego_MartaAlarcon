@@ -20,10 +20,11 @@ public class MovementStateManager : MonoBehaviour
     [SerializeField] LayerMask groundMask;
     Vector3 spherePos;
 
-    [SerializeField] float gravity = -9.81f;
-    Vector3 velocity;
+    public float jumpHeight = 1.5f; // ajusta a gusto
+    public float gravity = -9.81f;
+    public Vector3 velocity;
 
-
+    public JumpState Jump = new JumpState();
     public MovementBaseState currentState;
     public IdleState Idle = new IdleState();
     public WalkState Walk = new WalkState();
@@ -65,14 +66,11 @@ public class MovementStateManager : MonoBehaviour
         controller.Move(dir.normalized * currentMoveSpeed * Time.deltaTime);
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
-        spherePos = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);
-        if (Physics.CheckSphere(spherePos, controller.radius - 0.05f, groundMask))
-        {
-            return true;
-        }
-        return false;
+
+        return controller.isGrounded;
+
     }
 
     void Gravity()
@@ -86,9 +84,9 @@ public class MovementStateManager : MonoBehaviour
 
     }
 
-    /*private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(spherePos, controller.radius - 0.05f);
-    }*/
+    }
 }
