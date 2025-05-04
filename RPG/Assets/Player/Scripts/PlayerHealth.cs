@@ -5,10 +5,12 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100f;
     private float currentHealth;
     public bool isDead = false;
+    Animator animator;
 
     void Start()
     {
         currentHealth = maxHealth;
+        animator = GetComponent<Animator>();
     }
 
     public void TakeDamage(float amount)
@@ -27,6 +29,9 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         isDead = true;
+        animator.SetBool("Alive", false);
         Time.timeScale = 0;
+
     }
+
 }
