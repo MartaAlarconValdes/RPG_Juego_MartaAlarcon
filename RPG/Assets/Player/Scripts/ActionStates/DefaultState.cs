@@ -6,7 +6,7 @@ public class DefaultState : ActionBaseState
 {
     public override void EnterState(ActionStateManager actions)
     {
-        
+
     }
 
     public override void UpdateState(ActionStateManager actions)

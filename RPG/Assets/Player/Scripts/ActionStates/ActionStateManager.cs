@@ -11,7 +11,7 @@ public class ActionStateManager : MonoBehaviour
     public DefaultState Default = new DefaultState();
 
     public GameObject currentWeapon;
-    [HideInInspector]public WeaponAmmo ammo;
+    [HideInInspector] public WeaponAmmo ammo;
     AudioSource audioSource;
 
     [HideInInspector] public Animator anim;
@@ -28,18 +28,9 @@ public class ActionStateManager : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            // Solo permitir recargar si el arma no está ya recargando y si hay munición extra
-            if (ammo.currentAmmo < ammo.clipSize && ammo.extraAmmo > 0 && currentState != Reload)
-            {
-                SwitchState(Reload);
-            }
-        }
-
-        // Actualizar el estado actual del arma (por ejemplo, recargando, en reposo, etc.)
         currentState.UpdateState(this);
     }
 

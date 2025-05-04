@@ -4,26 +4,23 @@ using UnityEngine;
 
 public class ReloadState : ActionBaseState
 {
-    float reloadTime = 2f;  // Tiempo para recargar el arma (puedes ajustarlo)
+    float reloadTime = 2f;  
     float reloadTimer = 0f;
 
-    public override void EnterState(ActionStateManager actionStateManager)
+    public override void EnterState(ActionStateManager actions)
     {
-        // Cuando el estado de recarga se activa, comienza el temporizador
         reloadTimer = reloadTime;
-        actionStateManager.anim.SetTrigger("Reload"); // Si tienes una animación de recarga
+        actions.anim.SetTrigger("Reload");
     }
 
     public override void UpdateState(ActionStateManager actionStateManager)
     {
-        // Durante la recarga, se cuenta el tiempo
         reloadTimer -= Time.deltaTime;
 
         if (reloadTimer <= 0f)
         {
-            // Cuando termina el tiempo de recarga, recargamos el arma
-            actionStateManager.WeaponReloaded();  // Recargar el arma
-            actionStateManager.SwitchState(actionStateManager.Default); // Volver al estado predeterminado
+            actionStateManager.WeaponReloaded();  
+            actionStateManager.SwitchState(actionStateManager.Default); 
         }
     }
 
