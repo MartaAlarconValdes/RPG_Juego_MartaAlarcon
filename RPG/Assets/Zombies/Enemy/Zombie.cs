@@ -53,10 +53,32 @@ public class Zombie : Enemy
     }
     public override void Dying()
     {
-        animator.SetBool("alive", false);
-        base.Dying();
-        agent.enabled = false;
+        StartCoroutine(DieSequence());
     }
+
+    private IEnumerator DieSequence()
+    {
+        if (agent.enabled)
+        {
+            agent.ResetPath();        // Detiene el movimiento
+            agent.isStopped = true;   // Congela el agente
+        }
+
+        // Espera 0.05 segundos para asegurarte de que se detuvo del todo
+        yield return new WaitForSeconds(0.05f);
+
+        // Inicia animación de muerte
+        animator.SetBool("alive", false);
+
+        // Marcar como muerto para detener lógica del sistema
+        base.Dying();
+
+        // Desactiva agente después de la animación, o aquí si no es necesario
+        if (agent.enabled)
+            agent.enabled = false;
+    }
+
+
 
 
 }

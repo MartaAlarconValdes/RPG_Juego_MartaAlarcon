@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     }
     public void CheckState()
     {
+        if (!alive) return;
         switch (state)
         {
             case States.Patrol:
